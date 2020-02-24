@@ -66,11 +66,13 @@ class Card(Payment):
         flwRef = responseJson["data"]["flwref"]
         amount = responseJson["data"]["amount"]
         chargedamount = responseJson["data"]["chargedamount"]
+        cardData = responseJson["data"]["card"]
         cardToken = responseJson["data"]["card"]["card_tokens"][0]["embedtoken"]
         vbvmessage = responseJson["data"]["vbvmessage"]
         chargemessage = responseJson["data"]["chargemessage"]
         chargecode = responseJson["data"]["chargecode"]
         currency = responseJson["data"]["currency"]
+        metadata = responseJson["data"]["meta"]
  
         # Check if the call returned something other than a 200
         if not response.ok:
@@ -79,10 +81,10 @@ class Card(Payment):
         
         # if the chargecode is not 00
         elif not (responseJson["data"].get("chargecode", None) == "00"):
-            return {"error": False, "transactionComplete": False, "txRef": txRef, "flwRef":flwRef, "amount": amount, "chargedamount": chargedamount, "cardToken": cardToken, "vbvmessage": vbvmessage, "chargemessage": chargemessage, "chargecode": chargecode, "currency": currency}
+            return {"error": False, "transactionComplete": False, "txRef": txRef, "flwRef":flwRef, "amount": amount, "chargedamount": chargedamount, "cardToken": cardToken, "card": cardData, "vbvmessage": vbvmessage, "chargemessage": chargemessage, "chargecode": chargecode, "currency": currency, "meta": metadata}
         
         else:
-            return {"error":False, "transactionComplete": True, "txRef": txRef, "flwRef": flwRef, "amount": amount, "chargedamount": chargedamount, "cardToken": cardToken, "vbvmessage": vbvmessage, "chargemessage": chargemessage, "chargecode": chargecode, "currency": currency}
+            return {"error":False, "transactionComplete": True, "txRef": txRef, "flwRef": flwRef, "amount": amount, "chargedamount": chargedamount, "cardToken": cardToken, "card": cardData, "vbvmessage": vbvmessage, "chargemessage": chargemessage, "chargecode": chargecode, "currency": currency, "meta": metadata}
 
     
     # Charge card function
